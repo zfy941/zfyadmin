@@ -1,0 +1,111 @@
+{extend name="public/base" /} 
+
+{block name="css"}{/block} 
+
+{block name="content"}
+<form class="layui-form">
+    <blockquote class="layui-elem-quote quoteBox">
+        <form class="layui-form">
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal add_btn" data-url="{:url('menu/menu_add')}">添加</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn sort_btn">排序</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-danger layui-btn-normal delAll_btn" data-url="{:url('menu/delAll')}">批量删除</a>
+            </div>
+        </form>
+    </blockquote>
+    <table id="list" lay-filter="list"></table>
+
+    <!--操作-->
+    <script type="text/html" id="listBar">
+		{{#  if(d.level >= "2"){ }}
+		<a class="layui-btn layui-btn-xs layui-btn-disabled">添加下级</a>
+		{{#  } else { }}
+		<a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="addlower">添加下级</a>
+		{{#  }}}
+		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+		<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
+	</script>
+    <input type="hidden" name="edit-url" value="{:url('menu/menu_edit')}">
+    <input type="hidden" name="del-url" value="{:url('menu/menu_del')}">
+    <input type="hidden" name="edit-url" value="{:url('menu/menu_edit')}">
+</form>
+{/block} 
+
+{block name="js"}
+<script>
+    layui.use(['form', 'layer', 'laydate', 'table', 'laytpl'], function () {
+        var form = layui.form,
+            layer = parent.layer === undefined ? layui.layer : top.layer,
+            $ = layui.jquery,
+            table = layui.table;
+
+        //列表
+        var tableIns = table.render({
+            elem: '#list',
+            url: "{:url('menu/menu')}",
+            id: "listTable",
+            cols: [[
+                { type: "checkbox", fixed: "left", width: 50 },
+                {
+                    field: 'sort', title: '排序', align: "center", templet: function (d) {
+                        return '<input type="text" name="sort[]" required lay-verify="required" autocomplete="off" class="layui-input" value="' + d.sort + '" style="text-align: center;">';
+                    }
+                },
+                {
+                    field: 'title', title: '名称', templet: function (d) {
+                        var str = new Array(d.level + 1).join('|-----  ');
+                        var title = d.level == 0 ? d.title : str + d.title;
+                        return title;
+                    }
+                },
+                { field: 'name', title: '菜单' },
+                {
+                    field: 'is_show', title: '显示', align: 'center', templet: function (d) {
+                        var check = d.is_show == 0 ? '' : 'checked';
+                        return '<input type="checkbox" name="is_show" lay-filter="is_show" lay-skin="switch" lay-text="显示|隐藏" ' + check + '>'
+                    }
+                },
+                {
+                    field: 'status', title: '状态', align: 'center', templet: function (d) {
+                        var check = d.status == 0 ? '' : 'checked';
+                        return '<input type="checkbox" name="is_show" lay-filter="is_show" lay-skin="switch" lay-text="正常|禁用" ' + check + '>'
+                    }
+                },
+                { title: '操作', templet: '#listBar', fixed: "right", align: "center" }
+            ]]
+        });
+
+        //排序
+        $(".sort_btn").click(function () {
+            var checkStatus = table.checkStatus('listTable'),
+                data = checkStatus.data,
+                idArr = [];
+            if (data.length > 0) {
+                for (var i in data) {
+                    idArr.push(data[i].id);
+                }
+                // var jsonString = JSON.stringify(idArr);
+                // layer.confirm('确定删除选中的文章？', {icon: 3, title: '提示信息'}, function (index) {
+                //     $.get(url,{ids : jsonString},function(data){
+                //         layer.close(index);
+                //         if (!data.msg) {return;}
+                //         layer.msg(data.msg);
+                //         if (data.code==1) {
+                //             table.reload("listTable")
+                //         }
+                //     })
+                // })
+            } else {
+                layer.msg("请选择需要删除的文章");
+            }
+        })
+
+
+
+    })
+</script> 
+{/block}

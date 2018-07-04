@@ -1,0 +1,89 @@
+{extend name="public/base" /}
+
+{block name="css"}{/block}
+
+{block name="content"}
+<form class="layui-form" id="formId" style="width:75%;">
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">上级菜单</label>
+		<div class="layui-input-block">
+			<select name="pid" lay-filter="pid">
+				<option value="0" {eq name="$id" value="0"}selected="selected"{/eq}>顶级菜单</option>
+				{volist name="menu" id="vo"}
+		      	 <option value="{$vo.id}" {eq name="$vo.id" value="$id"}selected="selected"{/eq}>{php}echo str_repeat('|-----  ',$vo['level']){/php}{$vo.title}</option>
+		    	{/volist}
+			</select>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">菜单名称</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input" name="title" lay-verify="required" placeholder="请输入菜单名称">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">菜单链接</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input" name="name" lay-verify="required" placeholder="格式为（控制器/方法）不区分大小写">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">排序</label>
+		<div class="layui-input-block">
+			<input type="text" class="layui-input" name="nasortme" lay-verify="required" placeholder="请输入序号">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">图标</label>
+		<div class="layui-input-row layui-col-xs4"> 
+			<input type="text" class="layui-input" name="icon" lay-verify="required" placeholder="请输入或选择图标">
+		</div>
+		<div class="layui-input-row layui-col-xs1" style="text-align: center;">
+			<a class="layui-btn layui-btn-primary" id="icon"></a>
+		</div>
+		<div class="layui-input-row layui-col-xs2">
+			<a class="layui-btn layui-btn-primary" id="choice-icon">选择图标</a>
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">状态</label>
+		<div class="layui-input-block">
+			<input type="radio" name="status" value="1" title="启用" checked>
+			<input type="radio" name="status" value="0" title="禁用">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<label class="layui-form-label">显示</label>
+		<div class="layui-input-block">
+			<input type="radio" name="is_show" value="1" title="显示" checked>
+			<input type="radio" name="is_show" value="0" title="隐藏">
+		</div>
+	</div>
+	<div class="layui-form-item layui-row layui-col-xs12">
+		<div class="layui-input-block">
+			<button class="layui-btn layui-btn" lay-submit="" lay-filter="submitForm" data-url="{:url('menu/menu_add')}">立即提交</button>
+			<button type="reset" class="layui-btn layui-btn layui-btn-primary">重置</button>
+		</div>
+	</div>
+</form>
+{/block}
+
+{block name="js"}
+<script>
+layui.use(['layer','jquery','element'],function(){
+    var form = layui.form,
+        element = layui.element;
+		$ = layui.$;
+
+    $('#choice-icon').click(function(event) {
+		var icons = layer.open({
+            title : "选择图标",
+            type : 2,
+            area: ['60%', '530px'],
+            content : "{:url('menu/choice_icon')}",
+        })
+	});
+})
+</script>
+{/block}
+
