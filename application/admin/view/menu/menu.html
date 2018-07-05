@@ -69,12 +69,12 @@
                         return '<input type="checkbox" name="is_show" lay-filter="is_show" lay-skin="switch" lay-text="显示|隐藏" ' + check + '>'
                     }
                 },
-                {
-                    field: 'status', title: '状态', align: 'center', templet: function (d) {
-                        var check = d.status == 0 ? '' : 'checked';
-                        return '<input type="checkbox" name="is_show" lay-filter="is_show" lay-skin="switch" lay-text="正常|禁用" ' + check + '>'
-                    }
-                },
+                // {
+                //     field: 'status', title: '状态', align: 'center', templet: function (d) {
+                //         var check = d.status == 0 ? '' : 'checked';
+                //         return '<input type="checkbox" name="is_show" lay-filter="is_show" lay-skin="switch" lay-text="正常|禁用" ' + check + '>'
+                //     }
+                // },
                 { title: '操作', templet: '#listBar', fixed: "right", align: "center" }
             ]]
         });
@@ -84,10 +84,16 @@
             var checkStatus = table.checkStatus('listTable'),
                 data = checkStatus.data,
                 idArr = [];
+                sortArr = [];
             if (data.length > 0) {
                 for (var i in data) {
                     idArr.push(data[i].id);
+                    sortArr.push(data[i].sort);
                 }
+                console.log(checkStatus);
+                console.log(sortArr);
+                
+                return false;
                 // var jsonString = JSON.stringify(idArr);
                 // layer.confirm('确定删除选中的文章？', {icon: 3, title: '提示信息'}, function (index) {
                 //     $.get(url,{ids : jsonString},function(data){

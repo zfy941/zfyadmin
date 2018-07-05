@@ -162,5 +162,12 @@ layui.use(['form','layer','laydate','table','laytpl'],function(){
         });
         return false;
     })
+});
 
-})
+// -----------------------------------公共方法----------------------------------------------
+function timeDate(time) {
+    if (time == 0 || time == false) {
+        return '无';
+    }
+    return 1;
+}

@@ -24,5 +24,13 @@ class AdminUser extends Model
         return '新密码不一致或为空';
     }
 
+    /** 
+     * 关联分组模型
+     */
+    public function group()
+    {
+        return $this->belongsToMany('AuthGroup', 'AuthGroupAccess', 'group_id', "uid");
+    }
+
 
 }

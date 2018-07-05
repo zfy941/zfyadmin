@@ -1,0 +1,55 @@
+{extend name="public/base" /} {block name="css"}{/block} {block name="content"}
+<form class="layui-form" id="formId" style="width:75%;">
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">所属分组</label>
+        <div class="layui-input-block">
+            <select name="pid" lay-filter="pid">
+                {volist name="group" id="vo"}
+                <option value="{$vo.id}">{$vo.title}</option>
+                {/volist}
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="name" lay-verify="required" placeholder="请输入用户名">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">菜单链接</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="name" lay-verify="required" placeholder="格式为（控制器/方法）不区分大小写">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="nasortme" lay-verify="required" placeholder="请输入序号">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">状态</label>
+        <div class="layui-input-block">
+            <input type="radio" name="status" value="1" title="启用" checked>
+            <input type="radio" name="status" value="0" title="禁用">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <label class="layui-form-label">显示</label>
+        <div class="layui-input-block">
+            <input type="radio" name="is_show" value="1" title="显示" checked>
+            <input type="radio" name="is_show" value="0" title="隐藏">
+        </div>
+    </div>
+    <div class="layui-form-item layui-row layui-col-xs12">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn" lay-submit="" lay-filter="submitForm" data-url="{:url('menu/menu_add')}">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+{/block} {block name="js"}
+<script>
+
+</script> {/block}
